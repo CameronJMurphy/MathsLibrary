@@ -1,16 +1,16 @@
 #include <vector.h>
+#include <Bits.h>
 #include <iostream>
 
 int main()
 {
+	char bit = '1';
+	char bitfield{ 110 };
+	
+	//1101110
 
-	vector3 a;
-	vector3 b;
-	float c;
+	char set = checkBit(bitfield, bit);
 
-	a.editVector();
-	c = a[2];
-	std::cout << c;
-	//a.print();
+	std::cout << (int)set;
 	return 0;
 }

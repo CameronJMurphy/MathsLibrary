@@ -94,9 +94,12 @@ vector4 vector4::operator* (float other)//scale
 
 vector3::vector3()
 {
-	x = 0;
-	y = 0;
-	z = 0;
+	vector3(0, 0, 0);
+}
+
+vector3::vector3(float X, float Y, float Z) : x(X), y(Y), z(Z)
+{
+
 }
 
 vector3::~vector3()

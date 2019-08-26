@@ -48,12 +48,24 @@ public:
 class vector3
 {
 private:
-	float x, y, z;
+	//float x, y, z;
 public:
 
 	vector3();
+	vector3(float X, float Y, float Z);
 	~vector3();
 	
+	union {
+		struct {
+			float x;
+			float y;
+			float z;
+		};
+		float axis[3];
+		float data[3][3];
+		
+	
+	};
 	void editVector();
 
 	float magnitude();
