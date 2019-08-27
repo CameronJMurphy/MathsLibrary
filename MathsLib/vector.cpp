@@ -9,6 +9,11 @@ vector4::vector4()
 	w = 0;
 }
 
+vector4::vector4(float X, float Y, float Z, float W) : x(X), y(Y), z(Z), w(W)
+{
+
+}
+
 vector4::~vector4()
 {
 
@@ -24,8 +29,7 @@ void vector4::editVector()
 
 float vector4::magnitude()
 {
-	return sqrt(x*x + y * y + z * z);
-
+	return sqrt(x * x + y * y + z * z + w * w);
 }
 
 bool vector4::normalize()
@@ -37,6 +41,7 @@ bool vector4::normalize()
 		x = x / L;
 		y = y / L;
 		z = z / L;
+		w = w / L;
 		return true;
 
 	}
@@ -44,50 +49,60 @@ bool vector4::normalize()
 		return false;
 }
 
-vector4 vector4::operator+ (vector4 other)//Add one vector to another
+vector4* vector4::operator+ (const vector4& other) const//Add one vector to another
 {
-	vector4 temp = *this;
-	temp.x += other.x;
-	temp.y += other.y;
-	temp.z += other.z;
+	vector4* temp;
+	temp->x = x + other.x;
+	temp->y = y + other.y;
+	temp->z = z + other.z;
+	temp->w = w + other.w;
 
 	return temp;
 }
 
-vector4 vector4::operator- (vector4 other)//subtract one vector from another
+vector4* vector4::operator- (const vector4& other) const //subtract one vector from another
 {
-	vector4 temp = *this;
-	temp.x -= other.x;
-	temp.y -= other.y;
-	temp.z -= other.z;
+	vector4* temp;
+	temp->x = x - other.x;
+	temp->y = y - other.y;
+	temp->z = z - other.z;
+	temp->w = w - other.w;
 
 	return temp;
 }
 
 vector4 vector4::cross(vector4 other)
 {
-	vector4 temp;
-	temp.x = (y * other.z) - (z * other.y);
-	temp.y = (z * other.x) - (x + other.z);
-	temp.z = (x * other.y) - (y * other.x);
-	return temp;
+	// the result is a Vector, so W is 0
+	return { y * other.z - z * other.y,
+	z * other.x - x * other.z,
+	x * other.y - y * other.x,
+	0 };
 }
 
 float vector4::dot(vector4 other)
 {
-	return x * other.x + y * other.y + z * other.z;
+	return x * other.x + y * other.y + z * other.z + w * other.w;
 }
 
 vector4 vector4::operator* (float other)//scale
 {
-	vector4 temp = *this;
-	temp.x *= other;
-	temp.y *= other;
-	temp.z *= other;
+	vector4 temp;
+	temp.x = x * other;
+	temp.y = y * other;
+	temp.z = z * other;
+	temp.w = w * other;
 
 	return temp;
 }
 
+void vector4::operator += (const vector4& other) 
+{
+	x += other.x;
+	y += other.y;
+	z += other.z;
+	w += other.w;
+}
 
 
 ///////////vector3/////////////

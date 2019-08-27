@@ -4,12 +4,27 @@
 
 class vector4
 {
-private:
-	float x, y, z, w;
 public:
 
 	vector4();
+	vector4(float X, float Y, float Z , float W);
 	~vector4();
+
+	
+
+	union
+	{
+		struct
+		{
+			float x;
+			float y;
+			float z;
+			float w;
+		};
+		float data[4];
+		int data[4];
+
+	};
 
 	void editVector();
 
@@ -17,10 +32,11 @@ public:
 
 	bool normalize();
 
-	vector4 operator+ (vector4 other);//Add one vector to another
+	vector4* operator+ (const vector4& other) const;//Add one vector to another
 
+	void operator += (const vector4& other);
 
-	vector4 operator- (vector4 other);//subtract one vector from another
+	vector4* operator- (const vector4& other)const;//subtract one vector from another
 
 
 	vector4 cross(vector4 other);//cross product
@@ -59,11 +75,12 @@ public:
 		struct {
 			float x;
 			float y;
-			float z;
+			union
+			{
+				float z, w;
+			};
 		};
-		float axis[3];
-		float data[3][3];
-		
+		float data[3];
 	
 	};
 	void editVector();

@@ -1,16 +1,15 @@
 #include <vector.h>
 #include <Bits.h>
+#include <Matrix.h>
+
 #include <iostream>
 
 int main()
 {
-	char bit = '1';
-	char bitfield{ 110 };
-	
-	//1101110
+	Matrix3 m;
+	Matrix3 b;
+	Matrix3 c;
+	vector3 d;
 
-	char set = checkBit(bitfield, bit);
-
-	std::cout << (int)set;
 	return 0;
 }
