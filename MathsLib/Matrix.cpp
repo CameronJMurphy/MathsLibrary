@@ -162,13 +162,23 @@ void Matrix3::setEuler(float pitch, float yaw, float roll) {
 	*this = z * y * x;
 }
 
+void Matrix3::print()
+{
+	for (int row = 0; row < 3; ++row)
+	{
+		for (int col = 0; col < 3; ++col)
+			std::cout << data[col][row] << std::endl;
+	}
+
+}
 
 ///////////Matrix4/////////////
 
 const Matrix4 identity = Matrix4(1.0f, 0.0f, 0.0f, 0.0f,
 								 0.0f, 1.f, 0.0f, 0.0f,
 								 0.0f, 0.0f, 1.f, 0.0f,
-								 0.0f, 0.0f, 0.0f, 1.f);
+								 0.0f, 0.0f, 0.0f, 1.f);
+
 
 Matrix4::Matrix4()
 {
@@ -229,7 +239,8 @@ vector4 Matrix4::operator* (const vector4& vec) const
 
 	result.data[3] = data[0][3] * vec.data[0] + data[1][3] * vec.data[1] +
 		data[2][3] * vec.data[2] + data[3][3] * vec.data[3];
-	return result;
+	return result;
+
 }
 
 Matrix4 Matrix4::operator* (const Matrix4& other) const
@@ -243,7 +254,8 @@ Matrix4 Matrix4::operator* (const Matrix4& other) const
 				data[3][r] * other.data[c][3];
 		}
 	}
-	return result;
+	return result;
+
 }
 
 
@@ -271,7 +283,8 @@ void Matrix4::setRotateX(float radians)
 	xAxis = { 1, 0, 0, 0 };
 	yAxis = { 0, cosf(radians), sinf(radians), 0 };
 	zAxis = { 0, -sinf(radians), cosf(radians), 0 };
-	translation = { 0, 0, 0, 1 };
+	translation = { 0, 0, 0, 1 };
+
 }
 void Matrix4::rotateX(float radians)
 {
@@ -315,7 +328,8 @@ void Matrix4::setScaled(float x, float y, float z)
 	xAxis = { x, 0, 0, 0 };
 	yAxis = { 0, y, 0, 0 };
 	zAxis = { 0, 0, z, 0 };
-	translation = { 0, 0, 0, 1 };
+	translation = { 0, 0, 0, 1 };
+
 }
 void Matrix4::setScaled(const vector4& vec)
 {
@@ -353,4 +367,14 @@ void Matrix4::setEuler(float pitch, float yaw, float roll)
 void Matrix4::translate(float x, float y, float z) {
 	// apply vector offset
 	translation += vector4(x, y, z, 0);
+}
+
+void Matrix4::print()
+{
+	for (int row = 0; row < 4; ++row)
+	{
+		for (int col = 0; col < 4; ++col)
+			std::cout << data[col][row] << std::endl;
+	}
+	
 }

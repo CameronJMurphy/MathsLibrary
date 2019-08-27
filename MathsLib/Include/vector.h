@@ -38,6 +38,7 @@ public:
 
 	vector4* operator- (const vector4& other)const;//subtract one vector from another
 
+	void print();
 
 	vector4 cross(vector4 other);//cross product
 

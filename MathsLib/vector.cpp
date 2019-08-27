@@ -104,6 +104,14 @@ void vector4::operator += (const vector4& other)
 	w += other.w;
 }
 
+void vector4::print()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		std::cout << data[i] << std::endl;
+	}
+}
+
 
 ///////////vector3/////////////
 
@@ -234,7 +242,10 @@ vector3::operator float*()
 
 void vector3::print()
 {
-	std::cout << x << " " << y << " " << z << std::endl;
+	for (int i = 0; i < 3; ++i)
+	{
+		std::cout << data[i] << std::endl;
+	}
 }
 ////////vector2///////////
 

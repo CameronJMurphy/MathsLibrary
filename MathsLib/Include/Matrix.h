@@ -1,5 +1,6 @@
 #pragma once
 #include <vector.h>
+#include <iostream>
 
 class Matrix3
 {
@@ -39,7 +40,7 @@ public:
 
 	operator float*();
 
-
+	void print();
 	
 	void setRotateX(float rotation);
 	void rotateX(float radians);
@@ -99,7 +100,7 @@ public:
 
 	operator float*();
 
-
+	void print();
 
 	void setRotateX(float rotation);
 	void rotateX(float radians);
