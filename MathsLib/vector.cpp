@@ -9,6 +9,14 @@ vector4::vector4()
 	w = 0;
 }
 
+vector4::vector4(const vector4& other)
+{
+	x = other.x;
+	y = other.y;
+	z = other.z;
+	w = other.w;
+}
+
 vector4::vector4(float X, float Y, float Z, float W) : x(X), y(Y), z(Z), w(W)
 {
 
@@ -19,65 +27,85 @@ vector4::~vector4()
 
 }
 
-void vector4::editVector()
+void vector4::editVector(float X, float Y, float Z, float W)
 {
-	std::cout << "Enter an x value, then a y value, then a z value & finally a w value" << std::endl;
-	std::cin >> x >> y >> z >> w;
-
+	x = X;
+	y = Y;
+	z = Z;
+	w = W;
 }
+
 
 
 float vector4::magnitude()
 {
-	return sqrt(x * x + y * y + z * z + w * w);
+	return sqrt((x * x) + (y * y) + (z * z) + (w * w));
 }
 
-bool vector4::normalize()
+void vector4::normalise()
 {
 
-	float L = magnitude();
-	if (L != 0)
+	//float L = magnitude();
+	float mag = magnitude();
+
+	if (mag != 0)
 	{
-		x = x / L;
-		y = y / L;
-		z = z / L;
-		w = w / L;
-		return true;
+		x = x / mag;
+		y = y / mag;
+		z = z / mag;
+		w = w / mag;
 
 	}
-	else
-		return false;
+
 }
 
-vector4* vector4::operator+ (const vector4& other) const//Add one vector to another
+vector4 vector4::operator+ (const vector4& other) const//Add one vector to another
 {
-	vector4* temp;
-	temp->x = x + other.x;
-	temp->y = y + other.y;
-	temp->z = z + other.z;
-	temp->w = w + other.w;
+	vector4 temp;
+	//current->push_back(temp);
+	if (!(w == 1 && other.w == 1))//cant add 2 points together
+	{
+		temp.x = x + other.x;
+		temp.y = y + other.y;
+		temp.z = z + other.z;
+		temp.w = w + other.w;
 
+
+	}
 	return temp;
 }
 
-vector4* vector4::operator- (const vector4& other) const //subtract one vector from another
+vector4 vector4::operator- (const vector4& other) const //subtract one vector from another
 {
-	vector4* temp;
-	temp->x = x - other.x;
-	temp->y = y - other.y;
-	temp->z = z - other.z;
-	temp->w = w - other.w;
+	vector4 temp;
 
+	temp.x = x - other.x;
+	temp.y = y - other.y;
+	temp.z = z - other.z;
+	temp.w = w - other.w;
+	
 	return temp;
+}
+
+float& vector4::operator[](const int x)
+{
+	return data[x];
+}
+
+const float& vector4::operator[](const int x) const
+{
+	return data[x];
 }
 
 vector4 vector4::cross(vector4 other)
 {
 	// the result is a Vector, so W is 0
-	return { y * other.z - z * other.y,
-	z * other.x - x * other.z,
-	x * other.y - y * other.x,
-	0 };
+	vector4 temp;
+	temp.editVector(y * other.z - z * other.y,
+					z * other.x - x * other.z,
+					x * other.y - y * other.x,
+					0);
+	return temp;
 }
 
 float vector4::dot(vector4 other)
@@ -98,26 +126,51 @@ vector4 vector4::operator* (float other)//scale
 
 void vector4::operator += (const vector4& other) 
 {
-	x += other.x;
-	y += other.y;
-	z += other.z;
-	w += other.w;
+	if (!(w == 1 && other.w == 1))
+	{
+		x += other.x;
+		y += other.y;
+		z += other.z;
+		w += other.w;
+	}
 }
 
 void vector4::print()
 {
 	for (int i = 0; i < 4; ++i)
 	{
-		std::cout << data[i] << std::endl;
+		std::cout << data[i] << " ";
 	}
+	std::cout << std::endl;
 }
+
+vector4::operator float*()
+{
+	return data;
+}
+vector4::operator const float*() const
+{
+	return data;
+}
+
+vector4& vector4::operator=(const vector4& other) 
+{
+	x = other.x;
+	y = other.y;
+	z = other.z;
+	w = other.w;
+
+	return *this;
+	
+}
+
 
 
 ///////////vector3/////////////
 
-vector3::vector3()
+vector3::vector3() : vector3(0, 0, 0)
 {
-	vector3(0, 0, 0);
+	
 }
 
 vector3::vector3(float X, float Y, float Z) : x(X), y(Y), z(Z)
@@ -130,11 +183,11 @@ vector3::~vector3()
 
 }
 
-void vector3::editVector()
+void vector3::editVector(float X, float Y, float Z)
 {
-	std::cout << "Enter an x value, then a y value, and finally a z value" << std::endl;
-	std::cin >> x >> y >> z;
-
+	x = X;
+	y = Y;
+	z = Z;
 }
 
 
@@ -144,7 +197,7 @@ float vector3::magnitude()
 
 }
 
-bool vector3::normalize()
+bool vector3::normalise()
 {
 
 	float L = magnitude();
@@ -184,7 +237,7 @@ vector3 vector3::cross(const vector3& other) const
 {
 	vector3 temp;
 	temp.x = (y * other.z) - (z * other.y);
-	temp.y = (z * other.x) - (x + other.z);
+	temp.y = (z * other.x) - (x * other.z);
 	temp.z = (x * other.y) - (y * other.x);
 	return temp;
 }
@@ -242,17 +295,23 @@ vector3::operator float*()
 
 void vector3::print()
 {
+	
 	for (int i = 0; i < 3; ++i)
 	{
-		std::cout << data[i] << std::endl;
+		std::cout <<data[i] << " ";
 	}
+	std::cout << std::endl;
 }
 ////////vector2///////////
 
 vector2::vector2()
 {
-	x = 0;
-	y = 0;
+	vector2(0, 0);
+}
+
+vector2::vector2(float X, float Y) : x(X), y(Y)
+{
+
 }
 
 vector2::~vector2()
@@ -260,10 +319,10 @@ vector2::~vector2()
 
 }
 
-void vector2::editVector()
+void vector2::editVector(float X, float Y)
 {
-	std::cout << "Enter an x value, then a y value" << std::endl;
-	std::cin >> x >> y;
+	x = X;
+	y = Y;
 }
 
 vector2 vector2::operator+(vector2 other)
@@ -300,7 +359,7 @@ float vector2::magnitude()
 	return sqrt(x*x + y*y);
 }
 
-bool vector2::normalized()
+bool vector2::normalise()
 {
 	float L = magnitude();
 	if (L != 0)
@@ -323,4 +382,9 @@ float vector2::dot(vector2& other)
 {
 	return x * other.x + y * other.y;
 
+}
+
+vector2::operator float*()
+{
+	return &x;
 }

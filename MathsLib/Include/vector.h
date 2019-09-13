@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <math.h>
+#include <vector>
 
 class vector4
 {
@@ -9,7 +10,7 @@ public:
 	vector4();
 	vector4(float X, float Y, float Z , float W);
 	~vector4();
-
+	vector4(const vector4& other);
 	
 
 	union
@@ -22,21 +23,24 @@ public:
 			float w;
 		};
 		float data[4];
-		int data[4];
-
+	
 	};
 
-	void editVector();
+	void editVector(float X, float Y, float Z, float W);
 
 	float magnitude();
 
-	bool normalize();
+	void normalise();
 
-	vector4* operator+ (const vector4& other) const;//Add one vector to another
+	vector4 operator+ (const vector4& other) const;//Add one vector to another
 
 	void operator += (const vector4& other);
 
-	vector4* operator- (const vector4& other)const;//subtract one vector from another
+	vector4 operator- (const vector4& other)const;//subtract one vector from another
+
+	float& operator[](const int x);
+
+	const float& operator[](const int x) const;
 
 	void print();
 
@@ -58,14 +62,18 @@ public:
 		return object;
 	}
 
+	operator float*();
+	operator const float*()const;
+
+	vector4& operator=(const vector4& other);
+	
+
 };
 
 
 
 class vector3
 {
-private:
-	//float x, y, z;
 public:
 
 	vector3();
@@ -84,11 +92,11 @@ public:
 		float data[3];
 	
 	};
-	void editVector();
+	void editVector(float X, float Y, float Z);
 
 	float magnitude();
 
-	bool normalize();
+	bool normalise();
 
 	vector3 operator+ (const vector3& other) const;//Add one vector to another
 	
@@ -107,12 +115,8 @@ public:
 
 	friend vector3 operator*(float num, vector3 object)//scale
 	{
-
-		object.x *= num;
-		object.y *= num;
-		object.z *= num;
-
-		return object;
+		vector3 temp(object.x*num, object.y*num, object.z*num);
+		return temp;
 	}
 	
 	float& operator[](const int num);
@@ -126,16 +130,25 @@ public:
 };
 
 
-class vector2
+class vector2 // tested
 {
-private:
-	float x, y;
 public: 
 
 	vector2();
+	vector2(float X, float Y);
 	~vector2();
 
-	void editVector();
+	union
+	{
+		struct
+		{
+			float x;
+			float y;
+		};
+		float data[2];
+	};
+
+	void editVector(float X, float Y);
 
 	vector2 operator+(vector2 other);
 
@@ -143,18 +156,20 @@ public:
 
 	vector2 operator*(float num);
 
-	friend void operator*(float num, vector2& vec)
+	friend vector2 operator*(float num, vector2& vec)
 	{
-
-		vec.x *= num;
-		vec.y *= num;
+		vector2 temp(vec.x*num, vec.y*num);
+		return temp;
 	};
 	
 	float magnitude();	
 
-	bool normalized();
+	bool normalise();
 
 	void print();
+
+	operator float*();
+
 
 	float dot(vector2& other);
 

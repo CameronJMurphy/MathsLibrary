@@ -2,6 +2,8 @@
 #include <vector.h>
 #include <iostream>
 
+static const float pi = 3.1415926;
+
 class Matrix3
 {
 public:
@@ -25,11 +27,13 @@ public:
 		float data[3][3];
 	};
 
+	
+
 	static const Matrix3 identity;
 
 	const vector3& operator[] (int index) const;
 
-	vector3 operator* (const vector3& vec) const;
+	vector3 operator* (const vector3& vec);
 
 	Matrix3 operator* (const Matrix3& other) const;
 	
@@ -75,6 +79,7 @@ public:
 		};
 		vector4 axis[4];
 		float data[4][4];
+		float dataSingle[16];
 	};
 
 	static const Matrix4 identity;
@@ -83,14 +88,16 @@ public:
 	Matrix4(float x1, float y1, float z1,float w1, float x2, float y2, float z2, float w2, float x3, float y3, float z3, float w3, float x4, float y4, float z4, float w4);
 	Matrix4(vector4 X, vector4 Y, vector4 Z, vector4 W);
 	~Matrix4();
+	Matrix4(const Matrix4& other);
 
 
 
 	const vector4& operator[] (int index) const;
+	vector4& operator[] (int index);
 
-	vector4 operator* (const vector4& vec) const;
+	vector4 operator* (const vector4& vec);
 
-	Matrix4 operator* (const Matrix4& other) const;
+	Matrix4 operator* (const Matrix4& other);
 	
 	
 
@@ -99,6 +106,7 @@ public:
 
 
 	operator float*();
+	operator const float*()const;
 
 	void print();
 
@@ -120,5 +128,7 @@ public:
 	void setEuler(float pitch, float yaw, float roll);
 
 	void translate(float x, float y, float z);
+
+	Matrix4 operator = (const Matrix4& other);
 
 };

@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathLibTest", "MathLibTest\
 		{00F78ACC-05D6-4E43-A8B4-C7E77E12FB6F} = {00F78ACC-05D6-4E43-A8B4-C7E77E12FB6F}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "..\AIE\Maths_For_Games\UnitTest\UnitTest\UnitTest\UnitTest.vcxproj", "{02425FB5-E15F-4B7D-84FC-DA0B04920551}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -34,6 +36,14 @@ Global
 		{67A85207-73EF-4C8B-9943-6A47D27F27E2}.Release|x64.Build.0 = Release|x64
 		{67A85207-73EF-4C8B-9943-6A47D27F27E2}.Release|x86.ActiveCfg = Release|Win32
 		{67A85207-73EF-4C8B-9943-6A47D27F27E2}.Release|x86.Build.0 = Release|Win32
+		{02425FB5-E15F-4B7D-84FC-DA0B04920551}.Debug|x64.ActiveCfg = Debug|x64
+		{02425FB5-E15F-4B7D-84FC-DA0B04920551}.Debug|x64.Build.0 = Debug|x64
+		{02425FB5-E15F-4B7D-84FC-DA0B04920551}.Debug|x86.ActiveCfg = Debug|Win32
+		{02425FB5-E15F-4B7D-84FC-DA0B04920551}.Debug|x86.Build.0 = Debug|Win32
+		{02425FB5-E15F-4B7D-84FC-DA0B04920551}.Release|x64.ActiveCfg = Release|x64
+		{02425FB5-E15F-4B7D-84FC-DA0B04920551}.Release|x64.Build.0 = Release|x64
+		{02425FB5-E15F-4B7D-84FC-DA0B04920551}.Release|x86.ActiveCfg = Release|Win32
+		{02425FB5-E15F-4B7D-84FC-DA0B04920551}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

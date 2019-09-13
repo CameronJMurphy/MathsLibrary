@@ -2,21 +2,20 @@
 
 
 /////////////Matrix3////////////////////
-Matrix3::Matrix3()
+Matrix3::Matrix3() : Matrix3(0,0,0,0,0,0,0,0,0)
 {
-	vector3 X, Y, Z;//they will be 0,0,0
-	Matrix3(X,Y,Z);
+	
 }
 Matrix3::Matrix3(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3)
 {
 	data[0][0] = x1;
-	data[1][0] = y1;
-	data[2][0] = z1;
-	data[0][1] = x2;
+	data[0][1] = y1;
+	data[0][2] = z1;
+	data[1][0] = x2;
 	data[1][1] = y2;
-	data[2][1] = z2;
-	data[0][2] = x3;
-	data[1][2] = y3;
+	data[1][2] = z2;
+	data[2][0] = x3;
+	data[2][1] = y3;
 	data[2][2] = z3;
 	
 }
@@ -34,7 +33,7 @@ const Matrix3 Matrix3::identity = Matrix3(1.0f,0.0f,0.0f,
 										   0.0f,1.0f,0.0f,
 										   0.0f,0.0f,1.0f);
 
-vector3 Matrix3::operator* (const vector3& vec) const
+vector3 Matrix3::operator* (const vector3& vec)
 {
 	vector3 result;
 	for (int row = 0; row < 3; ++row) {
@@ -43,7 +42,6 @@ vector3 Matrix3::operator* (const vector3& vec) const
 					  data[2][row] * vec[2];
 	}
 	return result;
-
 }
 Matrix3 Matrix3::operator* (const Matrix3& other) const
 {
@@ -174,40 +172,38 @@ void Matrix3::print()
 
 ///////////Matrix4/////////////
 
-const Matrix4 identity = Matrix4(1.0f, 0.0f, 0.0f, 0.0f,
-								 0.0f, 1.f, 0.0f, 0.0f,
-								 0.0f, 0.0f, 1.f, 0.0f,
-								 0.0f, 0.0f, 0.0f, 1.f);
+const Matrix4 identity(1.0f, 0.0f, 0.0f, 0.0f,
+						0.0f, 1.f, 0.0f, 0.0f,
+						0.0f, 0.0f, 1.f, 0.0f,
+						0.0f, 0.0f, 0.0f, 1.f);
 
 
-Matrix4::Matrix4()
+Matrix4::Matrix4() : Matrix4(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
 {
-	for (int col = 0; col < 4; ++col)
-	{
-		for (int row = 0; row < 4; ++row)
-		{
-			data[col][row] = 0;
-		}
-	}
+
 }
-Matrix4::Matrix4(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2, float x3, float y3, float z3, float w3, float x4, float y4, float z4, float w4)
+Matrix4::Matrix4(float x1, float y1, float z1, float w1, 
+	float x2, float y2, float z2, float w2, 
+	float x3, float y3, float z3, float w3, 
+	float x4, float y4, float z4, float w4) : xAxis(x1,y1,z1,w1), yAxis(x2,y2,z2,w2), zAxis(x3,y3,z3,w3), translation(x4,y4,z4,w4)
 {
-	data[0][0] = x1;
-	data[1][0] = y1;
-	data[2][0] = z1;
-	data[3][0] = w1;
-	data[0][1] = x2;
+	/*data[0][0] = x1;
+	data[0][1] = y1;
+	data[0][2] = z1;
+	data[0][3] = w1;
+	data[1][0] = x2;
 	data[1][1] = y2;
-	data[2][1] = z2;
-	data[3][1] = w2;
-	data[0][2] = x3;
-	data[1][2] = y3;
+	data[1][2] = z2;
+	data[1][3] = w2;
+	data[2][0] = x3;
+	data[2][1] = y3;
 	data[2][2] = z3;
-	data[3][2] = w3;
-	data[0][3] = x4;
-	data[1][3] = y4;
-	data[2][3] = z4;
-	data[3][3] = w4;
+	data[2][3] = w3;
+	data[3][0] = x4;
+	data[3][1] = y4;
+	data[3][2] = z4;
+	data[3][3] = w4;*/
+	
 }
 Matrix4::Matrix4(vector4 X, vector4 Y, vector4 Z, vector4 W) : xAxis(X), yAxis(Y), zAxis(Z), translation(W)
 {
@@ -218,44 +214,84 @@ Matrix4::~Matrix4()
 
 }
 
+Matrix4::Matrix4(const Matrix4& other)
+{	
+	for (int i = 0; i < 4; ++i)
+	{
+		axis[i] = other.axis[i];
+	}
+}
+
 
 
 const vector4& Matrix4::operator[] (int index) const
 {
-	return axis[index];
+	switch (index)
+	{
+	case 0:
+		return xAxis;
+	case 1:
+		return yAxis;
+	case 2:
+		return zAxis;
+	case 3:
+		return translation;
+
+	}
 }
 
-vector4 Matrix4::operator* (const vector4& vec) const
+vector4& Matrix4::operator[] (int index)
+{
+	switch (index)
+	{
+	case 0:
+		return xAxis;
+	case 1:
+		return yAxis;
+	case 2:
+		return zAxis;
+	case 3:
+		return translation;
+
+	}
+}
+
+vector4 Matrix4::operator* (const vector4& vec)
 {
 	vector4 result;
-	result.data[0] = data[0][0] * vec.data[0] + data[1][0] * vec.data[1] +
-		data[2][0] * vec.data[2] + data[3][0] * vec.data[3];
-
-	result.data[1] = data[0][1] * vec.data[0] + data[1][1] * vec.data[1] +
-		data[2][1] * vec.data[2] + data[3][1] * vec.data[3];
-
-	result.data[2] = data[0][2] * vec.data[0] + data[1][2] * vec.data[1] +
-		data[2][2] * vec.data[2] + data[3][2] * vec.data[3];
-
-	result.data[3] = data[0][3] * vec.data[0] + data[1][3] * vec.data[1] +
-		data[2][3] * vec.data[2] + data[3][3] * vec.data[3];
+	for (int r = 0; r < 4; ++r)
+	{
+		result[r] = data[0][r] * vec[0] +
+					data[1][r] * vec[1] +
+					data[2][r] * vec[2] +
+					data[3][r] * vec[3];
+	}
 	return result;
 
 }
 
-Matrix4 Matrix4::operator* (const Matrix4& other) const
+Matrix4 Matrix4::operator* (const Matrix4& other) 
 {
 	Matrix4 result;
 	for (int r = 0; r < 4; ++r) {
 		for (int c = 0; c < 4; ++c) {
 			result.data[c][r] = data[0][r] * other.data[c][0] +
-				data[1][r] * other.data[c][1] +
-				data[2][r] * other.data[c][2] +
-				data[3][r] * other.data[c][3];
+								data[1][r] * other.data[c][1] +
+								data[2][r] * other.data[c][2] +
+								data[3][r] * other.data[c][3];
 		}
 	}
 	return result;
 
+}
+
+Matrix4::operator float*()
+{
+	return dataSingle;
+}
+Matrix4::operator const float*() const
+{
+	return dataSingle;
 }
 
 
@@ -264,15 +300,13 @@ Matrix4 Matrix4::transposed() const
 	Matrix4 result;
 	// flip row and column
 	for (int row = 0; row < 4; ++row)
+	{
 		for (int col = 0; col < 4; ++col)
+		{
 			result.data[row][col] = data[col][row];
+		}
+	}
 	return result;
-}
-
-
-Matrix4::operator float*()
-{
-	return &data[0][0] ;
 }
 
 
@@ -281,9 +315,9 @@ void Matrix4::setRotateX(float radians)
 {
 	// leave X axis and elements unchanged
 	xAxis = { 1, 0, 0, 0 };
-	yAxis = { 0, cosf(radians), sinf(radians), 0 };
-	zAxis = { 0, -sinf(radians), cosf(radians), 0 };
-	translation = { 0, 0, 0, 1 };
+	yAxis = { 0, (float)cosf(radians), (float)sinf(radians), 0 };
+	zAxis = { 0, (float)-sinf(radians), (float)cosf(radians), 0 };
+	translation = {0, 0, 0, 1};
 
 }
 void Matrix4::rotateX(float radians)
@@ -311,7 +345,7 @@ void Matrix4::rotateY(float radians)
 void Matrix4::setRotateZ(float radians)
 {
 	xAxis = { cosf(radians), sinf(radians), 0 ,0};
-	yAxis = { -sinf(radians), cosf(radians), 0 ,0};
+	yAxis = {-sinf(radians), cosf(radians), 0 ,0};
 	zAxis = { 0, 0 , 1 ,0};
 	translation = { 0, 0, 0, 1 };
 }
@@ -377,4 +411,13 @@ void Matrix4::print()
 			std::cout << data[col][row] << std::endl;
 	}
 	
+}
+
+Matrix4 Matrix4::operator = (const Matrix4& other)
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		axis[i] = other.axis[i];
+	}
+	return *this;
 }
